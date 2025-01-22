@@ -1,0 +1,653 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "Extract Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Emails": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crypto": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase1": {
+      "main": [
+        [
+          {
+            "node": "Extract Emails1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Emails1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Crypto1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crypto1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-01-20T02:25:36.061Z",
+  "id": "FBbhtMqPIxAUPTqw",
+  "meta": null,
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        -100
+      ],
+      "id": "ecf50e1d-b83f-484f-b4ba-59b51bc5ca15",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "payee",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -100
+      ],
+      "id": "52a51e12-ce8c-44b1-8607-e7f80590ed6a",
+      "name": "Supabase",
+      "executeOnce": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "e5AFr32MiJHSJrPC",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9f1f7d6-c1a3-46ba-8109-45dba9bf4cf8",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        -100
+      ],
+      "id": "26a7772f-483b-4ef0-b159-8aa99be02dcc",
+      "name": "Extract Emails"
+    },
+    {
+      "parameters": {
+        "batchSize": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        740,
+        -100
+      ],
+      "id": "fa599297-1217-472f-b2b5-14023c4533d1",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": true,
+        "filters": {
+          "labelIds": [
+            "Label_413680419555457673"
+          ],
+          "sender": "={{ $('Supabase').item.json.first_name }} {{ $('Supabase').item.json.last_name }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        980,
+        -20
+      ],
+      "id": "76eff460-8c9e-45b3-834c-d0fb2d08d41d",
+      "name": "Gmail",
+      "webhookId": "cbeaf8a4-24f8-4326-baf5-882ec7918663",
+      "executeOnce": true,
+      "alwaysOutputData": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "f4Sn4Cw1jojBFPJd",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3abbec71-b92a-45ee-a994-906a9d75ffdc",
+              "name": "Subject",
+              "value": "={{ $json.Subject.match(/\\$(\\d+\\.\\d{2})/)[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "fa987e8f-f005-46dd-be21-0306ca73ef24",
+              "name": "snippet",
+              "value": "={{ $json.snippet.match(/\\$(\\d+\\.\\d{2})/)[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "e4a6550e-f2f4-4efe-9240-9830342ba01e",
+              "name": "internalDate",
+              "value": "={{ $json.internalDate.toDateTime('ms')}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        -20
+      ],
+      "id": "7f6b56dd-7ab3-4bfb-9f8d-d56bc3ac8dee",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "type": "SHA3-384",
+        "value": "={{ $('Supabase').item.json.payee_id }}||{{ $('Supabase').item.json.first_name }}||{{ $('Supabase').item.json.last_name }}||{{ $json.internalDate }}",
+        "dataPropertyName": "hash_val",
+        "encoding": "base64"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        -20
+      ],
+      "id": "bce86c62-2aae-4870-96b8-1f8775d4d59e",
+      "name": "Crypto"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0b10dc4c-e3c4-4338-a13b-1656bc05cf54",
+              "name": "Subject",
+              "value": "={{ $json.Subject || $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "85642926-64fb-4589-bead-7f796760354c",
+              "name": "internalDate",
+              "value": "={{ $json.internalDate }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1540,
+        -20
+      ],
+      "id": "8ac330b1-1226-4173-ba71-0107563fda7f",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1060,
+        -220
+      ],
+      "id": "fe4eb67a-d5b3-4b6c-98c3-e71ad73c9c13",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "036aa1df-22c1-4e5f-8634-c22d11f913ae",
+              "leftValue": "={{ $('Supabase').item.json.email }}",
+              "rightValue": "learning@studypartners.ca",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        500,
+        -100
+      ],
+      "id": "44f30251-5a19-4bf2-83b4-be1692eae6a6",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "payee",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        260,
+        460
+      ],
+      "id": "13f00b69-611c-48a5-9bfe-335d577fa7d0",
+      "name": "Supabase1",
+      "executeOnce": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "e5AFr32MiJHSJrPC",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9f1f7d6-c1a3-46ba-8109-45dba9bf4cf8",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        440,
+        460
+      ],
+      "id": "8721d138-bcef-4f47-b312-75b93bb59670",
+      "name": "Extract Emails1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        900,
+        460
+      ],
+      "id": "3f10e8c3-0f96-42a2-9857-9ed0ddc5dbc7",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": true,
+        "filters": {
+          "labelIds": [
+            "Label_413680419555457673"
+          ],
+          "sender": "={{ $('Supabase1').item.json.first_name }} {{ $('Supabase1').item.json.last_name }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1140,
+        540
+      ],
+      "id": "4f6928ce-512c-4803-a40c-5955b0187e28",
+      "name": "Gmail1",
+      "webhookId": "cbeaf8a4-24f8-4326-baf5-882ec7918663",
+      "executeOnce": true,
+      "alwaysOutputData": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "f4Sn4Cw1jojBFPJd",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3abbec71-b92a-45ee-a994-906a9d75ffdc",
+              "name": "Subject",
+              "value": "={{ $json.Subject.match(/\\$(\\d+\\.\\d{2})/)[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "fa987e8f-f005-46dd-be21-0306ca73ef24",
+              "name": "snippet",
+              "value": "={{ $json.snippet.match(/\\$(\\d+\\.\\d{2})/)[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "e4a6550e-f2f4-4efe-9240-9830342ba01e",
+              "name": "internalDate",
+              "value": "={{ $json.internalDate.toDateTime('ms')}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        540
+      ],
+      "id": "684d91df-3d55-4edf-90f9-d9a79b63652c",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "type": "SHA3-384",
+        "value": "={{ $('Supabase1').item.json.payee_id }}||{{ $('Supabase1').item.json.first_name }}||{{ $('Supabase1').item.json.last_name }}||{{ $json.internalDate }}",
+        "dataPropertyName": "hash_val",
+        "encoding": "base64"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        540
+      ],
+      "id": "2339aec4-8ada-4747-ae71-63990e6c4f51",
+      "name": "Crypto1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0b10dc4c-e3c4-4338-a13b-1656bc05cf54",
+              "name": "Subject",
+              "value": "={{ $json.Subject || $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "85642926-64fb-4589-bead-7f796760354c",
+              "name": "internalDate",
+              "value": "={{ $json.internalDate }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1700,
+        540
+      ],
+      "id": "e6b41411-6fa6-4c78-b132-f9dc6bdac620",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "036aa1df-22c1-4e5f-8634-c22d11f913ae",
+              "leftValue": "={{ $('Supabase1').item.json.email }}",
+              "rightValue": "learning@studypartners.ca",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "e05b68cb-b394-4571-95eb-83762401d37f",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "gsavage044@gmail.com",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        460
+      ],
+      "id": "574abd48-9a19-4d28-8a12-a53f7d720c09",
+      "name": "Filter1"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-20T13:13:10.000Z",
+  "versionId": "9cc3fbc0-3ddb-411d-af30-4e8be3995f63"
+}
