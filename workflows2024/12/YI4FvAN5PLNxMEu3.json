@@ -1,0 +1,163 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-12-23T22:00:54.813Z",
+  "id": "YI4FvAN5PLNxMEu3",
+  "meta": null,
+  "name": "Automated Tutoring Session File Generation",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "fff31f7a-0d75-4989-8e3c-aab2d4745941",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d6bbd4b4-d4af-4e59-82a6-fab38286641f",
+      "name": "Webhook",
+      "webhookId": "fff31f7a-0d75-4989-8e3c-aab2d4745941"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access the data from the Airtable Trigger node\n// const airtableData = $('Airtable Trigger').first().json.fields;\nconst data = $('Webhook').first().json.body.data.rows?.[0] || {};\n\n// LaTeX template\nconst latexTemplate = `\n\\\\documentclass[a4paper,12pt]{article}\n\\\\usepackage[margin=1in]{geometry}\n\\\\usepackage{fancyhdr}\n\\\\usepackage{background}\n\\\\usepackage{ragged2e}\n\\\\usepackage{tikz}\n\\\\usepackage{courier}\n\\\\renewcommand{\\\\familydefault}{\\\\ttdefault}\n\n\\\\backgroundsetup{\n    scale=1,\n    color=white,\n    opacity=0.05,\n    angle=45,\n    position=current page.south,\n    vshift=15cm,\n    contents={\\\\textit{Created by Curtis Mindle - Confidential}}\n}\n\\\\pagestyle{fancy}\n\\\\lhead{Tutoring Session Log - {{ studentname }}}\n\\\\rhead{Date: {{ date }}}\n\\\\cfoot{\\\\scriptsize Overall Session Rating: {{ progress_rating }}/5 \\\\quad Generated: {{ generated_at }} \\\\quad Template Version: 2.0}\n\n\\\\begin{document}\n\n\\\\begin{FlushLeft}\n    \\\\textbf{\\\\footnotesize Student:} {{ studentname }} \\\\\\\\\n    \\\\textbf{\\\\footnotesize Tutor:} Curtis Mindle \\\\\\\\\n    \\\\footnotesize \\\\textbf{Session Duration:} {{ duration }} minutes \\\\\\\\\n    \\\\footnotesize \\\\textbf{Grade:} {{ subject }} \\\\quad \\\\textbf{Work Provided:}  {{ prepared }} \\\\\\\\\n    \\\\footnotesize \\\\textbf{Location:} 'A Loveleigh Place - Napanee'\n    \\\\vspace{0.5cm}\n\\\\end{FlushLeft}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Key Concepts Covered}\n\\\\justifying\n{{ keyconcepts }}\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Student's Strengths Today}\n\\\\justifying\n{{ strengths }}\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Areas of Difficulty}\n\\\\justifying\n{{ difficulties }}\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Homework Assigned}\n\\\\justifying\nN/A\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Additional Remarks (IF ANY)}\n\\\\justifying\n{{ additionalnotes }}\n\\\\vspace{0.3cm}\n\n\\\\begin{tikzpicture}[remember picture,overlay]\n    \\\\node at (current page.south west)[opacity=0] {\n        \\\\textcolor{white}{Created by Curtis Mindle - Confidential}\n    };\n\\\\end{tikzpicture}\n\n\\\\end{document}\n`;\n\n// Extract relevant data\nconst placeholders = {\n    \"{{ studentname }}\": data[\"Student First Name\"]?.[0] || \"Unknown\",\n    \"{{ date }}\": data[\"Date\"] || \"Unknown\",\n    \"{{ duration }}\": data[\"Duration (min)\"]?.toString() || \"0\",\n    \"{{ subject }}\": data[\"Subject\"] || \"Unknown\",\n    \"{{ keyconcepts }}\": data[\"Concepts Covered\"] || \"None provided\",\n    \"{{ strengths }}\": data[\"Strengths\"] || \"None provided\",\n    \"{{ difficulties }}\": data[\"Difficulties\"] || \"None provided\",\n    \"{{ additionalnotes }}\": data[\"Additional Notes\"] || \"None provided\",\n    \"{{ progress_rating }}\": data[\"Session Rating\"]?.toString() || \"0\",\n    \"{{ prepared }}\": data[\"Came prepared with work\"] === \"Yes\" ? \"YES\" : \"NO\",\n    \"{{ generated_at }}\": new Date().toISOString(),\n};\n\n// Perform replacements in the LaTeX template\nlet filledTemplate = latexTemplate;\nfor (const [key, value] of Object.entries(placeholders)) {\n    filledTemplate = filledTemplate.replace(new RegExp(key, \"g\"), value);\n}\n\n// Return the generated LaTeX content\nreturn {\n    content: filledTemplate,\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        0
+      ],
+      "id": "b8a58b59-3adf-4473-875b-16b2f597ae61",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "url": "https://latexonline.cc/compile",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $('Code').item.json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "09685d51-df10-410d-9764-4b1c4d17fed4",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.fileName }}-{{ $('Webhook').item.json.body.data.rows[0][\"Student First Name\"][0] }}-{{ $('Webhook').item.json.body.data.previous_rows[0].Date }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/folders/16mW7BLfRsTsp6vBZKmVZQltpvZBLu1hB",
+          "mode": "url"
+        },
+        "options": {
+          "simplifyOutput": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        760,
+        0
+      ],
+      "id": "e2f1e144-f8f6-40fc-af97-4293e0c3531b",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "M3Fvn9BJ7IKDzF9Y",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst row = $('Webhook').first().json.body.data.rows?.[0] || {};\n\n// function to format the ID with leading zeros\nfunction formatID(id) {\n  const idString = id.toString();\n  const leadingZeros = 3 - idString.length;\n  return \"TS\" + \"0\".repeat(Math.max(0, leadingZeros)) + idString;\n}\n\n// Generate the dynamic FileName\nconst id = row[\"Id\"] || 0;\nconst dynamicFileID = formatID(id)\n\nreturn {\n  fileName: dynamicFileID\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        380,
+        0
+      ],
+      "id": "5ec27afb-de1d-4f05-9ded-24ee845db91f",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-12-24T15:52:03.000Z",
+  "versionId": "79319ea6-e788-4653-b379-8ff9e8c7b45d"
+}
