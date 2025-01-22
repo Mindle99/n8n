@@ -1,0 +1,322 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-12-20T17:47:49.901Z",
+  "id": "hHN83XOPP6vrYpXQ",
+  "meta": null,
+  "name": "Sync Supabase to Airtable",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7a6dc638-e5ec-4c54-8453-5c90b57e3205",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "students",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "ede7c92d-bbdd-4502-af1d-ea5f020b2d15",
+      "name": "Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "e5AFr32MiJHSJrPC",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appvRzW2pSRWrsApe",
+          "mode": "list",
+          "cachedResultName": "Tutoring",
+          "cachedResultUrl": "https://airtable.com/appvRzW2pSRWrsApe"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblaMWuPNmd6WOE1e",
+          "mode": "list",
+          "cachedResultName": "Students",
+          "cachedResultUrl": "https://airtable.com/appvRzW2pSRWrsApe/tblaMWuPNmd6WOE1e"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Student ID": "={{ $json.student_id }}",
+            "Student First Name": "={{ $json.student_first_name }}",
+            "Student Last Name": "={{ $json.student_last_name }}",
+            "Guardian First Name": "={{ $json.guardian_first_name }}",
+            "Guardian Last Name": "={{ $json.guardian_last_name }}",
+            "Point of Contact": "={{ $json.point_of_contact }}",
+            "Contact Method": "={{ $json.method_of_contact }}",
+            "Opportunity Status": "={{ $json.opportunity_status }}",
+            "Opportunity Stage": "={{ $json.opportunity_stage }}",
+            "Phone Number": "={{ $json.phone }}",
+            "Email": "={{ $json.email }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Student ID",
+              "displayName": "Student ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Student First Name",
+              "displayName": "Student First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Student Last Name",
+              "displayName": "Student Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Guardian First Name",
+              "displayName": "Guardian First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Guardian Last Name",
+              "displayName": "Guardian Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Point of Contact",
+              "displayName": "Point of Contact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Self",
+                  "value": "Self"
+                },
+                {
+                  "name": "Parent",
+                  "value": "Parent"
+                },
+                {
+                  "name": "Study Centre",
+                  "value": "Study Centre"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Contact Method",
+              "displayName": "Contact Method",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Facebook Messenger",
+                  "value": "Facebook Messenger"
+                },
+                {
+                  "name": "Phone",
+                  "value": "Phone"
+                },
+                {
+                  "name": "Email",
+                  "value": "Email"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Opportunity Status",
+              "displayName": "Opportunity Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Closed",
+                  "value": "Closed"
+                },
+                {
+                  "name": "Active",
+                  "value": "Active"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Opportunity Stage",
+              "displayName": "Opportunity Stage",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Companies",
+              "displayName": "Companies",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Company ID (from Companies)",
+              "displayName": "Company ID (from Companies)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Payees",
+              "displayName": "Payees",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        440,
+        0
+      ],
+      "id": "39cfc565-3565-400d-b7f2-b2ee652ed4de",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "JYO3jHuozfvKzymQ",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-12-21T14:28:47.000Z",
+  "versionId": "f261dd8b-3ec5-4b4c-bdc7-60a5b8b66f94"
+}
