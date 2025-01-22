@@ -1,0 +1,661 @@
+{
+  "active": false,
+  "connections": {
+    "Google Calendar2": {
+      "main": [
+        [
+          {
+            "node": "Add Event ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Event ID": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-11-20T21:03:37.584Z",
+  "id": "ZPwTBBC8vECitsY0",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Full Load - Session Log Data",
+  "nodes": [
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "curtis.mindle@gmail.com",
+          "mode": "list",
+          "cachedResultName": "curtis.mindle@gmail.com"
+        },
+        "start": "={{ $json.Date.start }}",
+        "end": "={{ $json.Date.end }}",
+        "additionalFields": {
+          "summary": "={{ $json.Name }}"
+        }
+      },
+      "id": "44266399-1079-4691-bd76-41f1b5f21a31",
+      "name": "Google Calendar2",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.1,
+      "position": [
+        1160,
+        0
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "6gFbKZSfFWIIN2cr",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1HuNK6rUA8vaR4r3pBuJCdzoTH3m81LxeS1mby7-NFMU",
+          "mode": "list",
+          "cachedResultName": "Calculated_Mindset_Tutoring - CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HuNK6rUA8vaR4r3pBuJCdzoTH3m81LxeS1mby7-NFMU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1870808616,
+          "mode": "list",
+          "cachedResultName": "n8n_session_logging",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HuNK6rUA8vaR4r3pBuJCdzoTH3m81LxeS1mby7-NFMU/edit#gid=1870808616"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $json.property_student_id[0] }} | {{ $json.property_rollup[0] }} | {{ $json.id }}",
+            "session_date": "={{ $json.property_date.start.toDateTime().format(\"yyyyMMdd\") }}",
+            "student_id": "={{ $json.property_student_id[0] }}",
+            "session_time": "={{ $json.property_date.start.toDateTime().format(\"HH:mm:ss\") }}",
+            "student_name": "={{ $json.property_rollup[0] }}",
+            "session_status": "={{ $json.property_status }}",
+            "duration_hrs": "={{ $json.property_date.end.toDateTime().diffTo($json.property_date.start, 'hours')}}",
+            "rate": "={{ $json.property_rate[0] }}",
+            "location": "={{ $json.property_session_type }}",
+            "notion_page_id": "={{ $json.id }}",
+            "calendar_id": "={{ $('Google Calendar2').item.json.id }}",
+            "insert_timestamp": "={{ $now }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "session_date",
+              "displayName": "session_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "session_time",
+              "displayName": "session_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "student_id",
+              "displayName": "student_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "student_name",
+              "displayName": "student_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "session_status",
+              "displayName": "session_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "duration_hrs",
+              "displayName": "duration_hrs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rate",
+              "displayName": "rate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "paid_status",
+              "displayName": "paid_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notion_page_id",
+              "displayName": "notion_page_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "calendar_id",
+              "displayName": "calendar_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "insert_timestamp",
+              "displayName": "insert_timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "update_timestamp",
+              "displayName": "update_timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "44e85fe3-1b5a-4238-a17f-9d194d456dde",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1700,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "x75QwkQ9bMoSdIqe",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "get",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        }
+      },
+      "id": "7aeba269-7e59-40fb-9910-4f0dad46e7a9",
+      "name": "Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1540,
+        0
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "Z34Etpjh4CZY9BAF",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Notion1').item.json.id }}",
+          "mode": "id"
+        },
+        "simple": false,
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Event ID|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $json.id }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "be7cc875-8b3f-4bdb-a41b-f1d5aa3b1ae1",
+      "name": "Add Event ID",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1360,
+        0
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "Z34Etpjh4CZY9BAF",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "135407dc-5524-80a6-acf1-c565ff0f48ab",
+          "mode": "list",
+          "cachedResultName": "Master Calendar",
+          "cachedResultUrl": "https://www.notion.so/135407dc552480a6acf1c565ff0f48ab"
+        },
+        "limit": 100,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        700,
+        120
+      ],
+      "id": "44b4d105-5bb0-4cd7-86bf-d01edd337739",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "Z34Etpjh4CZY9BAF",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        500,
+        120
+      ],
+      "id": "12ed60e7-9ba3-4bb1-96ac-fa95c958ea08",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "268b309e-3e61-48e2-8d40-e3cf50c51abc",
+              "leftValue": "={{ $json.property_event_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        920,
+        120
+      ],
+      "id": "8a4cc55e-80de-435b-9658-45c77cf0c162",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1HuNK6rUA8vaR4r3pBuJCdzoTH3m81LxeS1mby7-NFMU",
+          "mode": "list",
+          "cachedResultName": "Calculated_Mindset_Tutoring - CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HuNK6rUA8vaR4r3pBuJCdzoTH3m81LxeS1mby7-NFMU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1870808616,
+          "mode": "list",
+          "cachedResultName": "n8n_session_logging",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HuNK6rUA8vaR4r3pBuJCdzoTH3m81LxeS1mby7-NFMU/edit#gid=1870808616"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $json.property_student_id[0] }} | {{ $json.property_rollup[0] }} | {{ $json.id }}",
+            "session_date": "={{ $json.property_date.start.toDateTime().format(\"yyyyMMdd\") }}",
+            "student_id": "={{ $json.property_student_id[0] }}",
+            "session_time": "={{ $json.property_date.start.toDateTime().format(\"HH:mm:ss\") }}",
+            "student_name": "={{ $json.property_rollup[0] }}",
+            "session_status": "={{ $json.property_status }}",
+            "duration_hrs": "={{ $json.property_date.end.toDateTime().diffTo($json.property_date.start, 'hours')}}",
+            "rate": "={{ $json.property_rate[0] }}",
+            "location": "={{ $json.property_session_type }}",
+            "notion_page_id": "={{ $json.id }}",
+            "calendar_id": "={{ $json.property_event_id }}",
+            "insert_timestamp": "={{ $now }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "session_date",
+              "displayName": "session_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "session_time",
+              "displayName": "session_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "student_id",
+              "displayName": "student_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "student_name",
+              "displayName": "student_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "session_status",
+              "displayName": "session_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "duration_hrs",
+              "displayName": "duration_hrs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rate",
+              "displayName": "rate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "location",
+              "displayName": "location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "paid_status",
+              "displayName": "paid_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notion_page_id",
+              "displayName": "notion_page_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "calendar_id",
+              "displayName": "calendar_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "insert_timestamp",
+              "displayName": "insert_timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "update_timestamp",
+              "displayName": "update_timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6b1fae23-daf0-45c2-9c1d-9bdc938b067d",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1320,
+        220
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "x75QwkQ9bMoSdIqe",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Notion Create Trigger": {
+      "lastTimeChecked": "2024-11-20T20:27:00.000Z",
+      "possibleDuplicates": [
+        "144407dc-5524-80b6-bbca-f76c561b0b35"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "createdAt": "2024-11-20T21:03:22.306Z",
+      "updatedAt": "2024-11-20T21:03:22.306Z",
+      "id": "RFaXg2epZFi9kd7B",
+      "name": "Tutoring_CRM"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-11-20T21:28:04.000Z",
+  "versionId": "c0d449e9-eee9-4b38-9949-25e16ab9af7d"
+}
