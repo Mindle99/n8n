@@ -1,0 +1,107 @@
+{
+  "active": true,
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Dropbox2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-11-23T17:40:15.804Z",
+  "id": "IQ0BL7F77HT1XNlm",
+  "meta": null,
+  "name": "Save to Drive",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "q": "label:therapy-bouwman subject:Your Receipt - Eric J. Bouwman Therapy has:attachment "
+        },
+        "options": {
+          "dataPropertyAttachmentsPrefixName": "=attachment_",
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b732fca8-aa6f-4a9f-a813-fb2f8c4ef0f1",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Igxrq6SKGerkDIzN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "=/06_Documents/01_Finances/02_Receipts/04_Therapy/Eric_J_Bouwman_Therapy/{{ $json.date.toDateTime().format('yyyy') }}/{{ $json.date.toDateTime().format('yyyy-MM-dd') }}/{{ $binary.attachment_0.fileName }}",
+        "binaryData": true,
+        "binaryPropertyName": "=attachment_0"
+      },
+      "type": "n8n-nodes-base.dropbox",
+      "typeVersion": 1,
+      "position": [
+        180,
+        0
+      ],
+      "id": "44a1f3db-313a-41db-97d9-57278bef610e",
+      "name": "Dropbox2",
+      "credentials": {
+        "dropboxApi": {
+          "id": "SL3KJqyq2TMejvtD",
+          "name": "Dropbox account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Gmail Trigger": {
+      "Gmail Trigger": {
+        "lastTimeChecked": 1737566878
+      }
+    }
+  },
+  "tags": [
+    {
+      "createdAt": "2024-11-24T15:32:09.028Z",
+      "updatedAt": "2024-11-24T15:32:09.028Z",
+      "id": "hB2yXgxjbO920Uz3",
+      "name": "Personal"
+    },
+    {
+      "createdAt": "2024-11-24T15:32:14.177Z",
+      "updatedAt": "2024-11-24T15:32:14.177Z",
+      "id": "uvhkCEuYBdKcIVLU",
+      "name": "Therapy"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-11-24T15:32:15.000Z",
+  "versionId": "8235d94d-8d61-4218-8ff9-14e5c9be93d2"
+}
