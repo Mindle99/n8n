@@ -1,0 +1,65 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-01-22T17:24:50.083Z",
+  "id": "JKCsVJQfRFyvGly0",
+  "meta": null,
+  "name": "My workflow 8",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "815b598e-4d16-4474-b2b5-e60be4d7c107",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "26b4332f-dca4-4693-b355-95b096563190",
+      "name": "n8n",
+      "credentials": {
+        "n8nApi": {
+          "id": "Eo0OeiqMsIwxZQUa",
+          "name": "n8n account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-22T17:24:50.083Z",
+  "versionId": "8267463c-d561-4f56-9d19-da9b9c10915b"
+}
