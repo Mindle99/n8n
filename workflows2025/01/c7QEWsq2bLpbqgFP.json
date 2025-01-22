@@ -1,0 +1,112 @@
+{
+  "active": false,
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-01-22T02:46:08.312Z",
+  "id": "c7QEWsq2bLpbqgFP",
+  "meta": null,
+  "name": "My workflow 6",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "New Payee Submission",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Payee First Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Payee Last Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Payee Email",
+              "fieldType": "email",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "77f28ff8-4325-4ab6-ba92-743ff09e7f91",
+      "name": "On form submission",
+      "webhookId": "9f7e3663-71de-4d60-88f3-236e627cc62c"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "payee",
+        "returnAll": true,
+        "filterType": "none"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "90579b2f-1daf-4adb-a899-e45a44cce29a",
+      "name": "Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "e5AFr32MiJHSJrPC",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const latestPk = $('Supabase').last().json.payee_id;\nconst numeric = parseInt(latestPk.slice(1));\nconst newNumeric = (numeric + 1).toString().padStart(3, \"0\");\n\n\nreturn {\n  newPk: `P${newNumeric}`\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "eb41b37f-4d13-419a-9cc2-50f94e65e0f1",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-22T02:53:27.000Z",
+  "versionId": "128a428c-68bd-4bcd-8e42-6182afb10a83"
+}
