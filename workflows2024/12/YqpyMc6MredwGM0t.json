@@ -1,0 +1,166 @@
+{
+  "active": false,
+  "connections": {
+    "Airtable Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-12-23T15:12:46.883Z",
+  "id": "YqpyMc6MredwGM0t",
+  "meta": null,
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "authentication": "airtableTokenApi",
+        "baseId": {
+          "__rl": true,
+          "value": "https://airtable.com/appvRzW2pSRWrsApe/tblzR01OWIIBn46la/viwhBe15EwfZWm3od?blocks=hide",
+          "mode": "url"
+        },
+        "tableId": {
+          "__rl": true,
+          "value": "https://airtable.com/appvRzW2pSRWrsApe/tblzR01OWIIBn46la/viwhBe15EwfZWm3od?blocks=hide",
+          "mode": "url"
+        },
+        "triggerField": "ID",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.airtableTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "59b091d2-e425-43dd-8d6d-91a1904a6442",
+      "name": "Airtable Trigger",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "JYO3jHuozfvKzymQ",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access the data from the Airtable Trigger node\nconst airtableData = $('Airtable Trigger').first().json.fields;\n\n// LaTeX template\nconst latexTemplate = `\n\\\\documentclass[a4paper,12pt]{article}\n\\\\usepackage[margin=1in]{geometry}\n\\\\usepackage{fancyhdr}\n\\\\usepackage{background}\n\\\\usepackage{ragged2e}\n\\\\usepackage{tikz}\n\\\\usepackage{courier}\n\\\\renewcommand{\\\\familydefault}{\\\\ttdefault}\n\n\\\\backgroundsetup{\n    scale=1,\n    color=white,\n    opacity=0.05,\n    angle=45,\n    position=current page.south,\n    vshift=15cm,\n    contents={\\\\textit{Created by Curtis Mindle - Confidential}}\n}\n\\\\pagestyle{fancy}\n\\\\lhead{Tutoring Session Log - {{ studentname }}}\n\\\\rhead{Date: {{ date }}}\n\\\\cfoot{\\\\scriptsize Overall Session Rating: {{ progress_rating }}/5 \\\\quad Generated: {{ generated_at }} \\\\quad Template Version: 2.0}\n\n\\\\begin{document}\n\n\\\\begin{FlushLeft}\n    \\\\textbf{\\\\footnotesize Student:} {{ studentname }} \\\\\\\\\n    \\\\textbf{\\\\footnotesize Tutor:} Curtis Mindle \\\\\\\\\n    \\\\footnotesize \\\\textbf{Session Duration:} {{ duration }} minutes \\\\\\\\\n    \\\\footnotesize \\\\textbf{Grade:} {{ subject }} \\quad \\\\textbf{Work Provided:}  {{ prepared }} \\\\\\\\\n    \\\\footnotesize \\\\textbf{Location:} 'A Loveleigh Place - Napanee'\n    \\\\vspace{0.5cm}\n\\\\end{FlushLeft}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Key Concepts Covered}\n\\\\justifying\n{{ keyconcepts }}\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Student's Strengths Today}\n\\\\justifying\n{{ strengths }}\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Areas of Difficulty}\n\\\\justifying\n{{ difficulties }}\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Homework Assigned}\n\\\\justifying\nN/A\n\\\\vspace{0.3cm}\n\n\\\\section*{\\\\fontsize{12}{14}\\\\selectfont Additional Remarks (IF ANY)}\n\\\\justifying\n{{ additionalnotes }}\n\\\\vspace{0.3cm}\n\n\\\\begin{tikzpicture}[remember picture,overlay]\n    \\\\node at (current page.south west)[opacity=0] {\n        \\\\textcolor{white}{Created by Curtis Mindle - Confidential}\n    };\n\\\\end{tikzpicture}\n\n\\\\end{document}\n`;\n\n// Extract relevant data from nested JSON\nconst placeholders = {\n    \"{{ studentname }}\": airtableData['Student First Name Rollup (from Students)']?.[0] || \"Unknown\",\n    \"{{ date }}\": airtableData['Date'] || \"Unknown\",\n    \"{{ duration }}\": airtableData['Duration (min)']?.toString() || \"0\",\n    \"{{ subject }}\": airtableData['Subject'] || \"Unknown\",\n    \"{{ keyconcepts }}\": airtableData['Concepts Covered'] || \"None provided\",\n    \"{{ strengths }}\": airtableData['Strengths'] || \"None provided\",\n    \"{{ difficulties }}\": airtableData['Difficulties'] || \"None provided\",\n    \"{{ additionalnotes }}\": airtableData['Additional Notes'] || \"None provided\",\n    \"{{ progress_rating }}\": airtableData['Session Rating']?.toString() || \"0\",\n    \"{{ prepared }}\": airtableData['Came prepared with work'] === \"Yes\" ? \"YES\" : \"NO\",\n    \"{{ generated_at }}\": new Date().toISOString(),\n};\n\n// Perform replacements in the LaTeX template\nlet filledTemplate = latexTemplate;\nfor (const [key, value] of Object.entries(placeholders)) {\n    filledTemplate = filledTemplate.replace(new RegExp(key, \"g\"), value);\n}\n\n// Return the generated LaTeX content\nreturn {\n    content: filledTemplate,\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "9dd19aaa-d09c-44a8-974b-6bdd235b7319",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "url": "https://latexonline.cc/compile",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "e3434663-52ed-43c8-99c7-7d47f06109dd",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Airtable Trigger').item.json.fields['Student First Name Rollup (from Students)'][0] }}-{{ $('Airtable Trigger').item.json.fields.Date }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/folders/16mW7BLfRsTsp6vBZKmVZQltpvZBLu1hB",
+          "mode": "url"
+        },
+        "options": {
+          "simplifyOutput": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        660,
+        0
+      ],
+      "id": "cdc66606-ca0f-4986-bb04-eb6064fcaa0c",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "M3Fvn9BJ7IKDzF9Y",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n",
+  "repo_owner": "mindle99",
+  "repo_path": "workflows",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Airtable Trigger": {
+      "lastTimeChecked": "2024-12-23T15:34:33Z"
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2024-12-24T15:17:48.000Z",
+  "versionId": "c3d2b24b-974f-485e-90f6-17d97de10857"
+}
